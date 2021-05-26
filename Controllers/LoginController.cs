@@ -55,7 +55,7 @@ namespace FirstProject_CRUD_.Controllers
             string requestParams = string.Empty;
 
             // Converting Request Params to Key Value Pair.  
-            allIputParams.Add(new KeyValuePair<string, string>("username", user.name));
+            allIputParams.Add(new KeyValuePair<string, string>("email", user.email));
             allIputParams.Add(new KeyValuePair<string, string>("password", user.password));
 
             // URL Request Query parameters.  
@@ -77,7 +77,7 @@ namespace FirstProject_CRUD_.Controllers
                     var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
                     tokenbased = JsonConvert.DeserializeObject<string>(resultmessage);
                     Session["tokenNumber"] = tokenbased;
-                    Session["userId"] = user.name;
+                    Session["userId"] = user.email;
 
                 }
                 else
@@ -92,7 +92,7 @@ namespace FirstProject_CRUD_.Controllers
             }
             if (Session["userId"] == null)
             {
-                ViewData["Message"] = "Wrong userName or Password";
+                ViewData["Message"] = "Wrong UserEmail or Password";
                 //return View();
                 return View("Index", user);
             }

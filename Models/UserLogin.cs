@@ -8,10 +8,10 @@ namespace FirstProject_CRUD_.Models
 {
     public class UserLogin
     {
-        [Required(ErrorMessage = "Enter UserName!!")]
-        [Display(Name = "Enter UserName:")]
+        [Required(ErrorMessage = "Enter UserEmail!!")]
+        [Display(Name = "Enter UserEmail:")]
        
-        public string name { get; set; }
+        public string email { get; set; }
         [Required(ErrorMessage = "Enter Password!!")]
         [Display(Name = "Enter password:")]
         [DataType(DataType.Password)]
