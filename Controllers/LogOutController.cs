@@ -11,7 +11,9 @@ namespace FirstProject_CRUD_.Controllers
         // GET: LogOut
         public ActionResult Index()
         {
+            Session["tokenNumber"] = null;
             Session["userId"] = null;
+
             return RedirectToAction("Index", "Home");
             //return View();
         }
