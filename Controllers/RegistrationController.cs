@@ -29,6 +29,7 @@ namespace FirstProject_CRUD_.Controllers
             //check email
 
             var checkmail = String.Empty;
+            int id;
             List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
             string requestParams = string.Empty;
 
@@ -40,6 +41,7 @@ namespace FirstProject_CRUD_.Controllers
             requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
 
             var responseMessage = new HttpResponseMessage();
+            //string response;
             using (var client = new HttpClient())
             {
 
@@ -47,7 +49,7 @@ namespace FirstProject_CRUD_.Controllers
                 client.BaseAddress = new Uri(api);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                 responseMessage = await client.GetAsync("api/Account/mailcheck?" + requestParams);
+                 responseMessage = await client.GetAsync("api/Account/checkMail?" + requestParams);
             }
 
 
@@ -55,10 +57,7 @@ namespace FirstProject_CRUD_.Controllers
                 {
                     var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
                     checkmail = JsonConvert.DeserializeObject<string>(resultmessage);
-                
-
-
-
+               
                 }
                 else
                 {
@@ -67,12 +66,12 @@ namespace FirstProject_CRUD_.Controllers
                     //return View();
 
                 }
-                if(checkmail!= "valid email")
+                if(checkmail=="invalid")
             {
                 ViewData["Message"] = "Already Registered";
                 return View();
             }
-            else
+            else if(checkmail == "valid")
             {
                 string mainconn = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
                 MySqlConnection sqlConn = new MySqlConnection(mainconn);
@@ -92,12 +91,16 @@ namespace FirstProject_CRUD_.Controllers
                     // cmd.Parameters.AddWithValue("@image", imgpath);
                     cmd.Parameters.AddWithValue("@image", "~/UserImage/" + file.FileName);
                 }
-
-                MySqlDataReader sdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
+               
+             
+                //MySqlDataReader sdr = cmd.ExecuteReader();
 
                 sqlConn.Close();
                 if (cmd != null)
                 {
+                    id = Convert.ToInt32(cmd.LastInsertedId);
+                    Session["user_id"] = id;
                     return RedirectToAction("Index", "Login");
                 }
                 else
@@ -105,6 +108,11 @@ namespace FirstProject_CRUD_.Controllers
                     ViewData["Message"] = "User " + user.name + " Registration fail";
                     return View();
                 }
+            }
+            else
+            {
+                ViewData["Message"] = "User  Registration fail";
+                return View();
             }
             
 
