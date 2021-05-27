@@ -29,16 +29,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
-                    @if(@Session["userId"]==null)
+                    @if (@Session["userId"] == null)
                     {
-                   <li>@Html.ActionLink("LogIn", "Index", "Login")</li>
-                    <li>@Html.ActionLink("Registration", "Index", "Registration")</li>
-                    }else
+                        <li>@Html.ActionLink("LogIn", "Index", "Login")</li>
+                        <li>@Html.ActionLink("Registration", "Index", "Registration")</li>
+                    }
+                    else
                     {
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("LogOut", "Index", "LogOut")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("AddEmployee", "Index", "Operation")</li>
+                        <li>@Html.ActionLink("LogOut", "Index", "LogOut")</li>
                     }
 
 

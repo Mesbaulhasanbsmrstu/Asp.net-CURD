@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 
+
 namespace FirstProject_CRUD_.Controllers
 {
     public class LoginController : Controller
@@ -70,13 +71,19 @@ namespace FirstProject_CRUD_.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var responseMessage = await client.GetAsync("api/Account/Login?"+requestParams);
-
+                string[] tokenandid = null;
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
                     tokenbased = JsonConvert.DeserializeObject<string>(resultmessage);
-                    Session["tokenNumber"] = tokenbased;
+                    HttpCookie userInfo = new HttpCookie("userInfo");
+                    userInfo["Token"] = tokenbased;
+                    userInfo.Expires.Add(new TimeSpan(0, 1, 0));
+                    Response.Cookies.Add(userInfo);
+                    tokenandid = tokenbased.Split(',');
+                    Session["tokenNumber"] = tokenandid[0];
+                    Session["pppp"] = tokenandid[1];
                     Session["userId"] = user.email;
 
                 }
@@ -85,16 +92,17 @@ namespace FirstProject_CRUD_.Controllers
                    
                     Session["tokenNumber"] = null;
                     Session["userId"] = null;
+                    Session["pppp"] = null;
                     //return View();
-                  
+
                 }
 
             }
             if (Session["userId"] == null)
             {
                 ViewData["Message"] = "Wrong UserEmail or Password";
-                //return View();
-                return View("Index", user);
+              return View();
+               // return View("Index");
             }
             else
             {
@@ -126,6 +134,7 @@ namespace FirstProject_CRUD_.Controllers
                 }
                 if(returnMessage=="valid")
             {
+                
                 return RedirectToAction("Index", "Home");
             }
             else

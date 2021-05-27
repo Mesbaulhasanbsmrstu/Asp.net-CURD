@@ -100,7 +100,7 @@ namespace FirstProject_CRUD_.Controllers
                 if (cmd != null)
                 {
                     id = Convert.ToInt32(cmd.LastInsertedId);
-                    Session["pppp"] = id*13;
+                    Session["pppp"] = id;
                     return RedirectToAction("Index", "Login");
                 }
                 else

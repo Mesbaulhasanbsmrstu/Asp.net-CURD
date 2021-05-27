@@ -22,9 +22,16 @@ namespace FirstProject_CRUD_.Controllers
 
         public ActionResult About()
         {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+
+            }
+            else { 
             ViewBag.Message = "Your application description page.";
 
             return View();
+        }
         }
 
         public ActionResult Contact()
