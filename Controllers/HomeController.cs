@@ -42,9 +42,18 @@ namespace FirstProject_CRUD_.Controllers
         }
         public ActionResult First()
         {
-            ViewBag.Message = "Welcome Here.";
+            if (Session["userId"] == null)
+            {
+                ViewBag.Message = "Welcome Here.";
 
-            return View();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
+      
+        
     }
 }
