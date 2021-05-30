@@ -1,0 +1,61 @@
+﻿@model IEnumerable<FirstProject_CRUD_.Models.Emplyee>
+
+@{
+    ViewBag.Title = "EmployeeList";
+}
+
+
+<br />
+<br />
+
+
+  
+    <a href="@Url.Action( "Index", "Operation")" class="btn btn-group-lg">Add New</a>
+
+
+<br />
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+           Action
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+               
+                <a href="https://localhost:44332/Operation/AddEmployee" class="btn btn-success">Edit</a>
+                <a href="@Url.Action( "delete",new  { id=item.id})" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -8,6 +8,7 @@ namespace FirstProject_CRUD_.Models
 {
     public class EmployeeAttribute
     {
+        public int id { get; set; }
         [Required(ErrorMessage = "Enter Name!!")]
         [Display(Name = "Enter Name:")]
         public string name { get; set; }

@@ -14,6 +14,7 @@ namespace FirstProject_CRUD_.Models
         public string name { get; set; }
         [Required(ErrorMessage = "Enter Email!!")]
         [Display(Name = "Enter email:")]
+        [EmailAddress]
         public string email { get; set; }
         [Required(ErrorMessage = "Enter Password!!")]
         [Display(Name = "Enter password:")]
