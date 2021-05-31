@@ -13,6 +13,7 @@ namespace FirstProject_CRUD_.Controllers
         {
             Session["tokenNumber"] = null;
             Session["userId"] = null;
+            Session.RemoveAll();
 
             return RedirectToAction("Index", "Home");
             //return View();

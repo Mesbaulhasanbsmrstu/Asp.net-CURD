@@ -207,6 +207,79 @@ if (Session["userId"] != null)
                 return RedirectToAction("Index", "Login");
             }
         }
+        public ActionResult edit(EmployeeAttribute e)
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> edit_data(EmployeeAttribute e)
+        {
+            if (Session["userId"] != null)
+            {
+               
+                var respone_Message = String.Empty;
+                List<KeyValuePair<string,string>> allIputParams = new List<KeyValuePair<string, string>>();
+                string requestParams = string.Empty;
+
+                // Converting Request Params to Key Value Pair.  
+                allIputParams.Add(new KeyValuePair<string, string>("id", e.id.ToString()));
+                allIputParams.Add(new KeyValuePair<string, string>("name", e.name));
+                allIputParams.Add(new KeyValuePair<string, string>("age", e.age));
+                allIputParams.Add(new KeyValuePair<string, string>("address", e.address));
+                allIputParams.Add(new KeyValuePair<string, string>("phone", e.phone));
+
+
+                // URL Request Query parameters.  
+                requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
+
+
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.Clear();
+                    client.BaseAddress = new Uri(api_link);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var responseMessage = await client.GetAsync("api/UserEmployee/edit?" + requestParams);
+
+
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
+                        respone_Message = JsonConvert.DeserializeObject<string>(resultmessage);
+
+                        return RedirectToAction("getEmployee", "Operation");
+
+                    }
+                    else
+                    {
+                        respone_Message = null;
+                        try
+                        {
+                            var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
+                            respone_Message = JsonConvert.DeserializeObject<string>(resultmessage);
+                            ModelState.Clear();
+                            ViewData["Message"] = respone_Message;
+                            return RedirectToAction("edit", "Operation");
+                        }
+                        catch(Exception ex)
+                        {
+                            ViewData["Message"] =ex.Message;
+                            return RedirectToAction("edit", "Operation");
+                        }
+                        //return View();
+
+                    }
+
+                }
+              
+                //return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
 
 
 

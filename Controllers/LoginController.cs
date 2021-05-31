@@ -77,10 +77,7 @@ namespace FirstProject_CRUD_.Controllers
                 {
                     var resultmessage = responseMessage.Content.ReadAsStringAsync().Result;
                     tokenbased = JsonConvert.DeserializeObject<string>(resultmessage);
-                    HttpCookie userInfo = new HttpCookie("userInfo");
-                    userInfo["Token"] = tokenbased;
-                    userInfo.Expires.Add(new TimeSpan(0, 1, 0));
-                    Response.Cookies.Add(userInfo);
+                  
                     tokenandid = tokenbased.Split(',');
                     Session["tokenNumber"] = tokenandid[0];
                     Session["pppp"] = tokenandid[1];

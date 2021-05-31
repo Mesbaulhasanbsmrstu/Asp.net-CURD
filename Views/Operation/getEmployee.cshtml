@@ -52,7 +52,7 @@
             </td>
             <td>
                
-                <a href="https://localhost:44332/Operation/AddEmployee" class="btn btn-success">Edit</a>
+                <a href="@Url.Action( "edit",new  { id=item.id,name=item.name,age=item.age,address=item.address,phone=item.phone})" class="btn btn-success">Edit</a>
                 <a href="@Url.Action( "delete",new  { id=item.id})" class="btn btn-danger">Delete</a>
             </td>
         </tr>
